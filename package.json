@@ -1,0 +1,35 @@
+{
+  "name": "Integ-Backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "hat": "^0.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.22.2",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
+    "node-cron": "^2.0.3",
+    "sentry": "^0.1.2",
+    "swagger-jsdoc": "^3.2.9",
+    "swagger-ui-express": "^4.0.7",
+    "yup": "^0.26.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha --exit --timeout 10000",
+    "dev": "nodemon",
+    "start": "node server.js"
+  }
+}
