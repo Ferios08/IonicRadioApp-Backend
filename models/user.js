@@ -28,8 +28,8 @@ module.exports = (db, headers) => {
             return new Promise(async (resolve, reject) => {
                 try {
                     await loginSchema.validate(data)
-                    db.query('select u.id, u.name,u.email,u.is_verified  from users where u.email = ? AND u.password = ?', [data.email, encrypt(data.password)], (error, result) => {
-                        if (error) res.status(403).json({ error })
+                    db.query('select u.id, u.name,u.email from users u where u.email = ? AND u.password = ?', [data.email, encrypt(data.password)], (error, result) => {
+                        if (error) reject({ error, code: '500' })
                         else if (result.length === 0) reject({ error: 'incorrect email or password', code: 403 })
                         else resolve({ ...result[0], token: jwt.sign({ ...result[0], type: 'user' }, 'no-secret') })
                     })
