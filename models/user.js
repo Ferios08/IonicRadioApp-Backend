@@ -16,8 +16,8 @@ module.exports = (db, headers) => {
     })
 
     var updateSchema = yup.object().shape({
-        name: yup.string().required(),
-        email: yup.string().email().required()
+        name: yup.string(),
+        email: yup.string().email()
 
     })
 
@@ -88,11 +88,10 @@ module.exports = (db, headers) => {
                     else if (!(await this.CanAccess(id))) reject({ error: 'you cannot update this user', code: 403 })
                     else {
                         await updateSchema.validate(data)
-                        db.query("UPDATE users SET name=?, email = ?,  WHERE id = ? ", [data.name, data.email, id], async (error, result) => {
+                        db.query("UPDATE users SET name=?, email = ? WHERE id = ? ", [data.name, data.email, id], async (error, result) => {
                             if (error) reject({ error, code: '500' })
                             else {
-                                var result = await this.Get(id)
-                                resolve({ ...result, token: jwt.sign(result.id, 'no-secret') })
+                                resolve(await this.Get(id))
                             }
                         })
                     }
@@ -110,7 +109,7 @@ module.exports = (db, headers) => {
         /** Check if a user exist or not by id */
         static Exist(id) {
             return new Promise((resolve, reject) => {
-                db.query('SELECT * FROM users WHERE id = ? and archived=0', [id], (error, result) => {
+                db.query('SELECT * FROM users WHERE id = ?', [id], (error, result) => {
                     if (error || result.length === 0) resolve(false)
                     else resolve(true)
                 })

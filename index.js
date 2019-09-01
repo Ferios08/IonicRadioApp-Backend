@@ -47,8 +47,10 @@ app.all('*', (req, res, next) => {
                     throw { error: 'authorization token is invalid', code: 403 }
                 } else {
                     req.backend = {
+                        origin,
                         id: decoded.id, // account id
-                        email: decoded.email, // account email
+                        //email: decoded.email, // account email
+                        type: decoded.type
                     }
                     next()
                 }
