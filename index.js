@@ -9,7 +9,7 @@ var compression = require('compression'),
 
 var app = express(),
     swagger = require('./docs/swagger'),
-    port = process.env.PORT || 1337
+    port = process.env.PORT || 1338
 
 app.set('port', port)
 app.use(cors())
