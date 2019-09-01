@@ -109,7 +109,7 @@ module.exports = (db, headers) => {
         /** Check if a user exist or not by id */
         static Exist(id) {
             return new Promise((resolve, reject) => {
-                db.query('SELECT * FROM users WHERE id = ?', [id], (error, result) => {
+                db.query('SELECT * FROM users WHERE id = ? and archived=0', [id], (error, result) => {
                     if (error || result.length === 0) resolve(false)
                     else resolve(true)
                 })
