@@ -49,7 +49,6 @@ app.all('*', (req, res, next) => {
                     req.backend = {
                         origin,
                         id: decoded.id, // account id
-                        //email: decoded.email, // account email
                         type: decoded.type
                     }
                     next()
@@ -61,7 +60,7 @@ app.all('*', (req, res, next) => {
     }
 })
 
-//app.use('/auth', require('./api/auth')(db))
+app.use('/auth', require('./api/auth')(db))
 //app.use('/admins', require('./api/admins')(db))
 app.use('/users', require('./api/users')(db))
 
