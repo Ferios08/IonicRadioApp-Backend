@@ -31,7 +31,7 @@ app.all('*', (req, res, next) => {
         origin = req.get('origin')
 
     var openRoutes = [
-        { path: '/auth', method: 'POST' },
+        { path: '/auth/users', method: '*'},
         { path: '/users', method: '*' },
         { path: '/customers', method: 'POST' },
         { path: '/admins', method: 'POST' },

@@ -23,7 +23,7 @@ module.exports = (db) => {
         loginSchema.validate(req.body).catch((err) => {
             res.status(400).json({ error: err.message })
         }).then(async () =>
-            db.query('SELECT * FROM Admins WHERE email = ? and password = ? ', [req.body.email, encrypt(req.body.password)], async (error, result) => {
+            db.query('SELECT name, email FROM Admins WHERE email = ? and password = ? ', [req.body.email, encrypt(req.body.password)], async (error, result) => {
                 if (error) res.status(403).json({ error })
                 else if (result.length === 0) res.status(403).json({ error: 'incorrect email or password' })
                 else res.json({ ...result[0], token: jwt.sign({ ...result[0], type: 'admin' }, 'no-secret') })
@@ -45,10 +45,11 @@ module.exports = (db) => {
         loginSchema.validate(req.body).catch((err) => {
             res.status(400).json({ error: err.message })
         }).then(async () =>
-            db.query('SELECT * FROM users WHERE email = ? and password = ? and archived=0', [req.body.email, encrypt(req.body.password)], async (error, result) => {
+            db.query('SELECT name, email FROM users WHERE email = ? and password = ? and archived=0', [req.body.email, encrypt(req.body.password)], async (error, result) => {
                 if (error) res.status(403).json({ error })
                 else if (result.length === 0) res.status(403).json({ error: 'incorrect email or password' })
-                else res.json({ ...result[0], token: jwt.sign({ ...result[0], type: 'user' }, 'no-secret') })
+                else res.json({ ...result[0], token: jwt.sign({ ...result[0], type: 'user' }, 'no-secret'),
+                expires_in : 24  *  60  *  60 })
             })
         )
     })
