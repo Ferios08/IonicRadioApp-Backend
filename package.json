@@ -1,8 +1,8 @@
 {
   "name": "Integ-Backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": " Basic Backend app using NodeJS and Mysql",
+  "main": "server.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -30,6 +30,6 @@
   "scripts": {
     "test": "mocha --exit --timeout 10000",
     "dev": "nodemon",
-    "start": "node server.js"
+    "start": " node server.js"
   }
 }
