@@ -21,6 +21,12 @@ module.exports = (db, headers) => {
 
     })
 
+    var checkInSchema = yup.object().shape({
+        lastvu: yup.string()
+
+    })
+
+
     return class User {
 
         /** Login to user's account */
@@ -87,8 +93,27 @@ module.exports = (db, headers) => {
                     if (!(await this.Exist(id))) reject({ error: 'this user does not exist', code: 404 })
                     else if (!(await this.CanAccess(id))) reject({ error: 'you cannot update this user', code: 403 })
                     else {
-                        await updateSchema.validate(data)
+                        await checkInSchema.validate(data)
                         db.query("UPDATE users SET name=?, email = ? WHERE id = ? ", [data.name, data.email, id], async (error, result) => {
+                            if (error) reject({ error, code: '500' })
+                            else {
+                                resolve(await this.Get(id))
+                            }
+                        })
+                    }
+                } catch (error) { reject({ error: error.message, code: '400' }) }
+            })
+        }
+
+
+        static checkIn(id, data) {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    if (!(await this.Exist(id))) reject({ error: 'this user does not exist', code: 404 })
+                    else if (!(await this.CanAccess(id))) reject({ error: 'you cannot update this user', code: 403 })
+                    else {
+                        await updateSchema.validate(data)
+                        db.query("UPDATE users SET lastvu =?  WHERE id = ? ", [data.lastvu, id], async (error, result) => {
                             if (error) reject({ error, code: '500' })
                             else {
                                 resolve(await this.Get(id))

@@ -56,6 +56,15 @@ module.exports = (db) => {
         }
     })
 
+    api.put('/check/:id', async (req, res) => {
+        try {
+            users = require('../models/user')(db, req.backend)
+            res.json(await users.checkIn(req.params.id, req.body))
+        } catch (err) {
+            res.status(err.code || 500).json(err)
+        }
+    })
+
     /**
      * @swagger
      * /users/id:
