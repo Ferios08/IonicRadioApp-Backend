@@ -22,7 +22,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 app.use('/docs', swagger)
-app.get('/', (req, res) => { res.json('Welcome to behind-the-scenes side of afflo.tn') })
+app.get('/', (req, res) => { res.json('Welcome to behind-the-scenes side of Firas-chbiki.com') })
 app.get('/healthz', (req, res) => { res.status(200).json({ status: 'ready' }) })
 
 app.all('*', (req, res, next) => {
@@ -64,6 +64,8 @@ app.all('*', (req, res, next) => {
 app.use('/auth', require('./api/auth')(db))
 //app.use('/admins', require('./api/admins')(db))
 app.use('/users', require('./api/users')(db))
+app.use('/movies', require('./api/movies')(db))
+app.use('/movies/byuser', require('./api/movies')(db))
 
 
 app.all('/*', (req, res) => { throw ({ error: 'requested endpoint does not exist', code: 400 }) })
