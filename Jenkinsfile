@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'firasdotcom/myBackend'
+    }
+
+  }
   stages {
     stage('install') {
       parallel {
