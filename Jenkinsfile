@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'firasdotcom/myBackend'
+      image 'firasdotcom/mybackend'
     }
 
   }
