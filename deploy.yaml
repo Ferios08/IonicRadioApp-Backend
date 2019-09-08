@@ -1,0 +1,47 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: mybackend
+  ports:
+  - protocol: TCP
+    port: 1340
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: mybackend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mybackend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: mybackend
+        track: stable
+    spec:
+      containers:
+      - name: mybackend
+        image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+        ports:
+        - containerPort: 1340
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 1340
+          initialDelaySeconds: 15
+          timeoutSeconds: 1
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 200m
