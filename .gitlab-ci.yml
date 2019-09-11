@@ -1,0 +1,30 @@
+stages:
+  - test
+  - build
+  - deploy
+
+test:
+  image: node:alpine
+  stage: test
+  script:
+    - npm install
+    - npm test
+
+build:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  script:
+    - docker login -u firasdotcom -p $REGISTRY_PASS registry.gitlab.com
+    - docker build -t registry.gitlab.com/Ferios08/integration-backend .
+    - docker push registry.gitlab.com/integration-backend
+
+deploy:
+  image: dtzar/helm-kubectl
+  stage: deploy
+  script:
+    - echo "${KUBECONFIG}" > config
+    - export KUBECONFIG=config
+    - kubectl apply -f deploy.yaml
+    - kubectl patch deployment ferios -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"

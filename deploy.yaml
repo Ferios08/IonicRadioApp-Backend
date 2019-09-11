@@ -1,48 +1,61 @@
-kind: Service
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: backend-app
+  labels:
+     app: backend-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       app: backend-app
+  template:
+    metadata:
+      labels:
+         app: backend-app
+    spec:
+      containers:
+      - name: backend-app
+        image: registry.gitlab.com/Ferios08/integration-backend
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 1337
+      imagePullSecrets:
+        - name: regcred
+
+---
+
 apiVersion: v1
+kind: Service
 metadata:
   name: backend-service
 spec:
   type: LoadBalancer
   selector:
-    app: mybackend
+     app: backend-app
   ports:
   - protocol: TCP
-    port: 1340
+    port: 80
+    targetPort: 1337
 
 ---
 
-
 apiVersion: extensions/v1beta1
-kind: Deployment
+kind: Ingress
 metadata:
-  name: backend-deployment
-  labels:
-    app: mybackend
+  name: backend-app
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
 spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: mybackend
-      track: stable
-  template:
-    metadata:
-      labels:
-        app: mybackend
-        track: stable
-    spec:
-      containers:
-      - name: mybackend
-        image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
-        ports:
-        - containerPort: 1340
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 1340
-          initialDelaySeconds: 15
-          timeoutSeconds: 1
-          periodSeconds: 10
-        resources:
-          requests:
-            cpu: 200m
+  tls:
+  - hosts:
+    - my-backend-13-68-196-225.nip.io
+    secretName: letsencrypt-prod
+  rules:
+  - host: my-backend-13-68-196-225.nip.io
+    http:
+      paths:
+      - backend:
+          serviceName: backend-service
+          servicePort: 80
