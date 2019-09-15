@@ -5,7 +5,7 @@ module.exports = (db) => {
      * @swagger
      * /movies:
      *   post:
-     *     description: create a new movie
+     *     description: create a new movie, requires a token.
      *     tags: [Movies]
      *     parameters:
      *       - name: name
@@ -25,7 +25,7 @@ module.exports = (db) => {
      * @swagger
      * /movies/id:
      *   get:
-     *     description: get movie by id
+     *     description: get movie by id,, requires a token.
      *     tags: [Movies]
      */
     api.get('/:id', async (req, res) => {
@@ -42,7 +42,7 @@ module.exports = (db) => {
      * @swagger
      * /movies/id:
      *   get:
-     *     description: get movie by id
+     *     description: get movie by id, requires a token.
      *     tags: [Movies]
      */
     api.get('/byuser/:id', async (req, res) => {
@@ -59,7 +59,7 @@ module.exports = (db) => {
      * @swagger
      * /movies/id:
      *   delete:
-     *     description: deleting a movie
+     *     description: deleting a movie, requires a token.
      *     tags: [Movies]
      */
     api.delete('/:id', async (req, res) => {
@@ -75,7 +75,7 @@ module.exports = (db) => {
       * @swagger
       * /movies:
       *   get:
-      *     description: get all movies
+      *     description: get all movies, requires a token.
       *     tags: [Movies]
       */
     api.get('/', async (req, res) => {

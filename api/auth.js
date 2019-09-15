@@ -13,7 +13,7 @@ module.exports = (db) => {
      * @swagger
      * /auth/admins:
      *   post:
-     *     description: Login to admin account
+     *     description: Login to admin account, returns a token.
      *     tags: [Admins]
      *     parameters:
      *       - name: email
@@ -35,7 +35,7 @@ module.exports = (db) => {
     * @swagger
     * /auth/users:
     *   post:
-    *     description: Login to user account
+    *     description: Login to user account, , returns a token.
     *     tags: [Users]
     *     parameters:
     *       - name: email

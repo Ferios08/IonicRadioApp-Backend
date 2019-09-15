@@ -5,7 +5,7 @@ module.exports = (db) => {
      * @swagger
      * /users:
      *   post:
-     *     description: create a new user
+     *     description: create a new user, returns a token.
      *     tags: [Users]
      *     parameters:
      *       - name: name
@@ -25,7 +25,7 @@ module.exports = (db) => {
      * @swagger
      * /users/id:
      *   get:
-     *     description: get user by id
+     *     description: get user by id, requires a token.
      *     tags: [Users]
      */
     api.get('/:id', async (req, res) => {
@@ -41,7 +41,7 @@ module.exports = (db) => {
      * @swagger
      * /users/:id:
      *   put:
-     *     description: Updating an user's account
+     *     description: Updating an user's account, requires a token of the user himself.
      *     tags: [Users]
      *     parameters:
      *       - name: name
@@ -69,7 +69,7 @@ module.exports = (db) => {
      * @swagger
      * /users/id:
      *   delete:
-     *     description: deleting a user's account
+     *     description: deleting a user's account, requires a token of the user himself.
      *     tags: [Users]
      */
     api.delete('/:id', async (req, res) => {
@@ -85,7 +85,7 @@ module.exports = (db) => {
       * @swagger
       * /users:
       *   get:
-      *     description: get all users
+      *     description: get all users, requires a token.
       *     tags: [Users]
       */
     api.get('/', async (req, res) => {
