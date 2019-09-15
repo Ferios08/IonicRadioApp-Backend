@@ -8,6 +8,7 @@ module.exports = (db) => {
      *     description: create a new movie, requires a token.
      *     tags: [Movies]
      *     parameters:
+     *       - name: user_id
      *       - name: name
      *       - name: duration
      *       - name: year
@@ -40,9 +41,9 @@ module.exports = (db) => {
 
      /**
      * @swagger
-     * /movies/id:
+     * /byuser/id:
      *   get:
-     *     description: get movie by id, requires a token.
+     *     description: get movie by user, requires a token.
      *     tags: [Movies]
      */
     api.get('/byuser/:id', async (req, res) => {
